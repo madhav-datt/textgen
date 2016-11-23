@@ -1,0 +1,163 @@
+name: p2
+channels: !!python/tuple
+- defaults
+dependencies:
+- backports=1.0=py27_0
+- cairo=1.12.18=6
+- cycler=0.10.0=py27_0
+- dbus=1.10.10=0
+- decorator=4.0.10=py27_0
+- enum34=1.1.6=py27_0
+- expat=2.1.0=0
+- fontconfig=2.11.1=6
+- freetype=2.5.5=1
+- get_terminal_size=1.0.0=py27_0
+- glib=2.43.0=1
+- gst-plugins-base=1.8.0=0
+- gstreamer=1.8.0=0
+- icu=54.1=0
+- ipython=5.1.0=py27_0
+- ipython_genutils=0.1.0=py27_0
+- jpeg=8d=2
+- libffi=3.2.1=0
+- libgcc=5.2.0=0
+- libgfortran=3.0.0=1
+- libpng=1.6.22=0
+- libxcb=1.12=0
+- libxml2=2.9.2=0
+- matplotlib=1.5.3=np111py27_0
+- mkl=11.3.3=0
+- mpmath=0.19=py27_1
+- nltk=3.2.1=py27_0
+- numpy=1.11.1=py27_0
+- openssl=1.0.2j=0
+- path.py=8.2.1=py27_0
+- pathlib2=2.1.0=py27_0
+- pexpect=4.0.1=py27_0
+- pickleshare=0.7.4=py27_0
+- pip=8.1.2=py27_0
+- pixman=0.32.6=0
+- prompt_toolkit=1.0.3=py27_0
+- ptyprocess=0.5.1=py27_0
+- pycairo=1.10.0=py27_0
+- pygments=2.1.3=py27_0
+- pyparsing=2.1.4=py27_0
+- pyqt=5.6.0=py27_0
+- python=2.7.12=1
+- python-dateutil=2.5.3=py27_0
+- pytz=2016.7=py27_0
+- qt=5.6.0=1
+- readline=6.2=2
+- scikit-learn=0.17.1=np111py27_2
+- scipy=0.18.1=np111py27_0
+- setuptools=27.2.0=py27_0
+- simplegeneric=0.8.1=py27_1
+- sip=4.18=py27_0
+- six=1.10.0=py27_0
+- sqlite=3.13.0=0
+- sympy=1.0=py27_0
+- tk=8.5.18=0
+- traitlets=4.3.1=py27_0
+- wcwidth=0.1.7=py27_0
+- wheel=0.29.0=py27_0
+- zlib=1.2.8=3
+- pip:
+  - actionlib==1.11.6
+  - backports.shutil-get-terminal-size==1.0.0
+  - bondpy==1.7.17
+  - camera-calibration==1.12.19
+  - camera-calibration-parsers==1.11.11
+  - catkin==0.7.4
+  - cv-bridge==1.12.2
+  - diagnostic-analysis==1.8.10
+  - diagnostic-common-diagnostics==1.8.10
+  - diagnostic-updater==1.8.10
+  - dynamic-reconfigure==1.5.43
+  - gazebo-plugins==2.5.7
+  - gazebo-ros==2.5.7
+  - gencpp==0.5.4
+  - geneus==2.2.5
+  - genlisp==0.4.16
+  - genmsg==0.5.8
+  - gennodejs==1.0.3
+  - genpy==0.6.2
+  - image-geometry==1.12.2
+  - interactive-markers==1.11.3
+  - ipython-genutils==0.1.0
+  - laser-geometry==1.6.4
+  - message-filters==1.12.5
+  - pluginlib==1.10.4
+  - prompt-toolkit==1.0.3
+  - python-qt-binding==0.3.1
+  - qt-dotgraph==0.3.3
+  - qt-gui==0.3.3
+  - qt-gui-cpp==0.3.3
+  - qt-gui-py-common==0.3.3
+  - resource-retriever==1.12.2
+  - rosbag==1.12.5
+  - rosboost-cfg==1.13.4
+  - rosclean==1.13.4
+  - roscreate==1.13.4
+  - rosgraph==1.12.5
+  - roslaunch==1.12.5
+  - roslib==1.13.4
+  - roslint==0.11.0
+  - roslz4==1.12.5
+  - rosmake==1.13.4
+  - rosmaster==1.12.5
+  - rosmsg==1.12.5
+  - rosnode==1.12.5
+  - rosparam==1.12.5
+  - rospy==1.12.5
+  - rosservice==1.12.5
+  - rostest==1.12.5
+  - rostopic==1.12.5
+  - rosunit==1.13.4
+  - roswtf==1.12.5
+  - rqt-action==0.4.2
+  - rqt-bag==0.4.2
+  - rqt-bag-plugins==0.4.2
+  - rqt-console==0.4.2
+  - rqt-dep==0.4.2
+  - rqt-graph==0.4.2
+  - rqt-gui==0.3.1
+  - rqt-gui-py==0.3.1
+  - rqt-image-view==0.4.2
+  - rqt-launch==0.4.2
+  - rqt-logger-level==0.4.2
+  - rqt-moveit==0.5.4
+  - rqt-msg==0.4.2
+  - rqt-nav-view==0.5.4
+  - rqt-plot==0.4.2
+  - rqt-pose-view==0.5.4
+  - rqt-publisher==0.4.2
+  - rqt-py-common==0.4.2
+  - rqt-py-console==0.4.2
+  - rqt-reconfigure==0.4.2
+  - rqt-robot-dashboard==0.5.4
+  - rqt-robot-monitor==0.5.4
+  - rqt-robot-steering==0.5.4
+  - rqt-runtime-monitor==0.5.4
+  - rqt-rviz==0.5.4
+  - rqt-service-caller==0.4.2
+  - rqt-shell==0.4.2
+  - rqt-srv==0.4.2
+  - rqt-tf-tree==0.5.4
+  - rqt-top==0.4.2
+  - rqt-topic==0.4.2
+  - rqt-web==0.4.2
+  - rviz==1.12.3
+  - sensor-msgs==1.12.5
+  - smach==2.0.0
+  - smach-ros==2.0.0
+  - smclib==1.7.17
+  - tf==1.11.8
+  - tf-conversions==1.11.8
+  - tf2-geometry-msgs==0.5.13
+  - tf2-kdl==0.5.13
+  - tf2-py==0.5.13
+  - tf2-ros==0.5.13
+  - topic-tools==1.12.5
+  - xacro==1.11.1
+prefix: /home/madhav/anaconda3/envs/p2
+
