@@ -19,7 +19,7 @@ def pre_process(string):
     return string
 
 raw_training_path = 'training/'
-raw_train_data = [f for f in listdir(raw_training_path) if isfile(join(raw_training_path, f))]
+raw_train_data = [f for f in listdir(raw_training_path) if isfile(join(f, raw_training_path))]
 
 output = 'train.txt'
 
