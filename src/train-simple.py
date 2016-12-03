@@ -1,4 +1,4 @@
-# Larger LSTM Network to Generate Text for Alice in Wonderland
+# Small LSTM Network to Generate Text for Alice in Wonderland
 import numpy
 from keras.models import Sequential
 from keras.layers import Dense
@@ -9,7 +9,7 @@ from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 # load ascii text and covert to lowercase
-filename = "training/wonderland-condensed.txt"
+filename = "training/11.txt"
 raw_text = open(filename).read()
 raw_text = raw_text.lower()
 # create mapping of unique chars to integers
@@ -37,19 +37,24 @@ X = numpy.reshape(dataX, (n_patterns, seq_length, 1))
 X = X / float(n_vocab)
 # one hot encode the output variable
 y = np_utils.to_categorical(dataY)
-# define the LSTM model
+# define the LSTM mode
 model = Sequential()
-model.add(LSTM(32, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
-model.add(Dropout(0.0))
-model.add(LSTM(32))
+# LSTM(# of nodes)
+model.add(LSTM(64, input_shape=(X.shape[1], X.shape[2])))
+# Can change dropout rate; higher avoids overfitting
 model.add(Dropout(0.0))
 model.add(Dense(y.shape[1], activation='softmax'))
-#model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.5, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
-model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.05, momentum=0.0, decay=0.0, nesterov=False))
+#model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
+model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False))
+
 # define the checkpoint
-#filepath="weights-improvement-{epoch:02d}-{loss:.4f}-bigger.hdf5"
-filepath="weights/multilayer-weights.hdf5"
+#filepath="weights-improvement-{epoch:02d}-{loss:.4f}.hdf5"
+filepath="weights/simple-weights.hdf5"
+
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
 callbacks_list = [checkpoint]
 # fit the model
-model.fit(X, y, nb_epoch=10, batch_size=64, callbacks=callbacks_list)
+# * can change nb_epoch and batch_size
+model.fit(X, y, nb_epoch=20, batch_size=128, callbacks=callbacks_list)
+
+
