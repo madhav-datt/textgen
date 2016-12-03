@@ -22,7 +22,3 @@ def auto_correct(text):
             frequency, word = line.split()
             word_frequency[word] = int(frequency)
 
-
-
-
-

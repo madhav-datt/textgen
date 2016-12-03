@@ -5,18 +5,20 @@
 
 import io
 import nltk
+import string
 from os import listdir
 from os.path import isfile, join
 
 
-def pre_process(string):
+def pre_process(str_text):
     """
     Perform all pre-processing steps on input string
-    :param string: input
+    :param str_text: input
     :return: pre-processed list of tokens for training
     """
-
-    return string
+    str_text = str(str_text)
+    str_text = str_text.translate(None, string.punctuation).lower()
+    return str_text
 
 raw_training_path = 'training/'
 raw_train_data = [f for f in listdir(raw_training_path) if isfile(join(f, raw_training_path))]
