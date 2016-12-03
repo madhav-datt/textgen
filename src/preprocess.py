@@ -18,7 +18,8 @@ def pre_process(str_text):
     """
     replace_punctuation = string.maketrans(string.punctuation, ' '*len(string.punctuation))
     str_text = str(str_text)
-    str_text = str_text.translate(replace_punctuation).lower().replace('\n', ' ').replace('\r', ' ')
+    # str_text = str_text.translate(replace_punctuation)
+    str_text = str_text.lower().replace('\n', ' ').replace('\r', ' ')
     return ' '.join(str_text.split())
 
 raw_training_path = 'training/'

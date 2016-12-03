@@ -1,6 +1,0 @@
-discarding /n/sw/fasrcsw/apps/Core/Anaconda/1.9.2-fasrc01/x/bin from PATH
-prepending /n/home13/azhou/.conda/envs/mypython/bin to PATH
-Using TensorFlow backend.
-srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
-slurmstepd: error: *** STEP 76580519.1 ON aaggpu05 CANCELLED AT 2016-12-03T13:58:09 ***
-slurmstepd: error: *** JOB 76580519 ON aaggpu05 CANCELLED AT 2016-12-03T13:58:09 ***
