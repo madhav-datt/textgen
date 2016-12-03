@@ -1,0 +1,8 @@
+discarding /n/sw/fasrcsw/apps/Core/Anaconda/1.9.2-fasrc01/x/bin from PATH
+prepending /n/home13/azhou/.conda/envs/mypython/bin to PATH
+Using TensorFlow backend.
+I tensorflow/core/common_runtime/direct_session.cc:175] Device mapping:
+
+I tensorflow/core/common_runtime/simple_placer.cc:818] MatMul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:818] b: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:818] a: /job:localhost/replica:0/task:0/cpu:0
