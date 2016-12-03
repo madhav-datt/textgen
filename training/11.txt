@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+﻿Mrs. Hudson, the landlady of Sherlock Holmes, was a long-suffering
+=======
 Mrs. Hudson, the landlady of Sherlock Holmes, was a long-suffering
+>>>>>>> refs/remotes/origin/master
 woman.  Not only was her first-floor flat invaded at all hours by
 throngs of singular and often undesirable characters but her remarkable
 lodger showed an eccentricity and irregularity in his life which must

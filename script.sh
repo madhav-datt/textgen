@@ -1,9 +1,15 @@
 #!/bin/bash
 #SBATCH -n 1                    # Number of cores
 #SBATCH -N 1                    # Ensure that all cores are on one machine
+<<<<<<< HEAD
+#SBATCH -t 0-00:05              # Runtime in D-HH:MM
+#SBATCH -p serial_requeue       # Partition to submit to
+#SBATCH --mem=5000               # Memory pool for all cores (see also --mem-per-cpu)
+=======
 #SBATCH -t 0-01:00              # Runtime in D-HH:MM
 #SBATCH -p serial_requeue       # Partition to submit to
 #SBATCH --mem=15000               # Memory pool for all cores (see also --mem-per-cpu)
+>>>>>>> refs/remotes/origin/master
 #SBATCH -o hostname_%j.out      # File to which STDOUT will be written
 #SBATCH -e hostname_%j.err      # File to which STDERR will be written
 #SBATCH --mail-type=END         # Type of email notification- BEGIN,END,FAIL,ALL

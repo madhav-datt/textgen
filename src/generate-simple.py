@@ -47,8 +47,12 @@ model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
 model.add(Dropout(0.1))
 model.add(Dense(y.shape[1], activation='softmax'))
 # load the network weights
+<<<<<<< HEAD
+filename = "weights/weights-improvement-sherlock-11-04-3.1133.hdf5"
+=======
 #filename = "weights/weights-improvement-sherlock-11-04-3.1133.hdf5"
 filename = "weights-improvement-sherlock-11-94-2.9818.hdf5"
+>>>>>>> refs/remotes/origin/master
 model.load_weights(filename)
 
 # copy this over from train-simple
