@@ -16,9 +16,10 @@ def pre_process(str_text):
     :param str_text: input
     :return: pre-processed list of tokens for training
     """
+    replace_punctuation = string.maketrans(string.punctuation, ' '*len(string.punctuation))
     str_text = str(str_text)
-    str_text = str_text.translate(None, string.punctuation).lower()
-    return str_text
+    str_text = str_text.translate(replace_punctuation).lower().replace('\n', ' ').replace('\r', ' ')
+    return ' '.join(str_text.split())
 
 raw_training_path = 'training/'
 raw_train_data = [f for f in listdir(raw_training_path) if isfile(join(f, raw_training_path))]
