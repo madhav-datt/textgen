@@ -39,10 +39,17 @@ X = X / float(n_vocab)
 y = np_utils.to_categorical(dataY)
 # define the LSTM model
 model = Sequential()
+<<<<<<< HEAD
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
 model.add(Dropout(0.2))
 model.add(LSTM(256))
 model.add(Dropout(0.2))
+=======
+model.add(LSTM(64, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
+model.add(Dropout(0))
+model.add(LSTM(64))
+model.add(Dropout(0))
+>>>>>>> refs/remotes/origin/master
 model.add(Dense(y.shape[1], activation='softmax'))
 #model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.5, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
 model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.05, momentum=0.0, decay=0.0, nesterov=False))

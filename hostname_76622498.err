@@ -1,5 +1,8 @@
 discarding /n/sw/fasrcsw/apps/Core/Anaconda/1.9.2-fasrc01/x/bin from PATH
 prepending /n/home13/azhou/.conda/envs/mypython/bin to PATH
 Using TensorFlow backend.
+<<<<<<< HEAD
 slurmstepd: error: *** STEP 76622498.0 ON aagk80gpu02 CANCELLED AT 2016-12-03T14:35:41 ***
 slurmstepd: error: *** JOB 76622498 ON aagk80gpu02 CANCELLED AT 2016-12-03T14:35:41 ***
+=======
+>>>>>>> refs/remotes/origin/master
