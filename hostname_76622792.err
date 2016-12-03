@@ -1,0 +1,8 @@
+discarding /n/sw/fasrcsw/apps/Core/Anaconda/1.9.2-fasrc01/x/bin from PATH
+prepending /n/home13/azhou/.conda/envs/mypython/bin to PATH
+Using TensorFlow backend.
+Traceback (most recent call last):
+  File "src/train-wonderland.py", line 11, in <module>
+    K._set_session(K.tf.Session(config=K.tf.ConfigProto(log_device_placement=True)))
+AttributeError: 'module' object has no attribute '_set_session'
+srun: error: supermicgpu01: task 0: Exited with exit code 1

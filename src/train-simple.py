@@ -40,21 +40,21 @@ y = np_utils.to_categorical(dataY)
 # define the LSTM mode
 model = Sequential()
 # LSTM(# of nodes)
-model.add(LSTM(64, input_shape=(X.shape[1], X.shape[2])))
+model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
 # Can change dropout rate; higher avoids overfitting
-model.add(Dropout(0.0))
+model.add(Dropout(0.2))
 model.add(Dense(y.shape[1], activation='softmax'))
 #model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
 model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False))
 
 # define the checkpoint
-#filepath="weights-improvement-{epoch:02d}-{loss:.4f}.hdf5"
-filepath="weights/simple-weights.hdf5"
+filepath="weights/weights-improvement-sherlock-11-{epoch:02d}-{loss:.4f}.hdf5"
+#filepath="weights/simple-weights.hdf5"
 
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
 callbacks_list = [checkpoint]
 # fit the model
 # * can change nb_epoch and batch_size
-model.fit(X, y, nb_epoch=20, batch_size=128, callbacks=callbacks_list)
+model.fit(X, y, nb_epoch=1000, batch_size=128, callbacks=callbacks_list)
 
 
