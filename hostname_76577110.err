@@ -1,0 +1,3 @@
+discarding /n/sw/fasrcsw/apps/Core/Anaconda/1.9.2-fasrc01/x/bin from PATH
+prepending /n/home13/azhou/.conda/envs/mypython/bin to PATH
+Using TensorFlow backend.
