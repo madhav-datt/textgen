@@ -2,3 +2,7 @@ io
 nltk
 re
 matplotlib
+numpy
+keras
+tensorflow
+theano

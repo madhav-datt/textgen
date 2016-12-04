@@ -56,9 +56,9 @@ def get_information_value(words):
     except KeyError:
         pass
 
-    k1 = reference_data.count(words_k1)
-    k2 = reference_data.count(words_k2)
-    info_count = np.log2(float(k1 / k2))
+    k1 = 0.1 + reference_data.count(words_k1)
+    k2 = 0.1 + reference_data.count(words_k2)
+    info_count = np.log2(k1 / k2)
 
     info_value[words_k1] = info_count
     return info_count
@@ -76,18 +76,21 @@ def evaluate_nlg(evaluation_file, reference_file='training/1.txt', N=5, beta=0):
     :param beta: Brevity penalty factor, by default 0
     :return: Evaluated score for file
     """
+
     global reference_data
     score = 0
 
     with io.open(evaluation_file, 'r', encoding='utf-8') as evaluation:
-        evaluation_data = pre_process(evaluation.read()).split()
+        evaluation_data = evaluation.read().encode('ascii', errors='ignore')
+        evaluation_data = pre_process(evaluation_data).split()
 
     with io.open(reference_file, 'r', encoding='utf-8') as reference:
-        reference_data = pre_process(reference.read())
+        reference_data = reference.read().encode('ascii', errors='ignore')
+        reference_data = pre_process(reference_data)
 
     # Brevity penalty factor calculation
     eval_data_len = len(evaluation_data)
-    word_ratio = float(eval_data_len / len(reference_data.split()))
+    word_ratio = float(eval_data_len) / len(reference_data.split())
     brevity_penalty = np.exp(beta * np.log(min(1, word_ratio)) ** 2)
 
     for n in xrange(1, N):
@@ -101,7 +104,11 @@ def evaluate_nlg(evaluation_file, reference_file='training/1.txt', N=5, beta=0):
             ngrams.add(words)
             total_info += get_information_value(words)
 
-        score += float(total_info / len(ngrams))
+        score += float(total_info) / len(ngrams)
 
     score *= brevity_penalty
     return score
+
+
+if __name__ == '__main__':
+    print evaluate_nlg('training/4-short.txt')
