@@ -1,0 +1,14 @@
+aagk80gpu07.rc.fas.harvard.edu
+-t 4-mod
+-w sherlock-4-4l-64n-1000e-64bs-02do
+-l 4
+-n 64
+-e 1000
+-b 64
+-d 0.2
+4-mod
+sherlock-4-4l-64n-1000e-64bs-02do
+4
+Total Characters:  100000
+Total Vocab:  44
+Total Patterns:  99900
