@@ -10,7 +10,7 @@ from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 # load ascii text and covert to lowercase
-filename = "training/wonderland.txt"
+filename = "training/4-mod.txt"
 raw_text = open(filename).read()
 raw_text = raw_text.lower()
 # create mapping of unique chars to integers, and a reverse mapping
@@ -47,12 +47,12 @@ model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
 model.add(Dropout(0.1))
 model.add(Dense(y.shape[1], activation='softmax'))
 # load the network weights
-filename = "weights-improvement-wonderland-3-20-1.9988.hdf5"
+filename = "weights/weights-sherlock-single-212.hdf5"
 model.load_weights(filename)
 
 # copy this over from train-simple
-#model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
-model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False))
+model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
+#model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01, momentum=0.0, decay=0.0, nesterov=False))
 
 # pick a random seed
 start = numpy.random.randint(0, len(dataX)-1)
@@ -61,7 +61,7 @@ print "Seed:"
 print "\"", ''.join([int_to_char[value] for value in pattern]), "\""
 # generate characters
 # generate however many characters
-for i in range(10000):
+for i in range(1000):
     x = numpy.reshape(pattern, (1, len(pattern), 1))
     x = x / float(n_vocab)
     prediction = model.predict(x, verbose=0)
