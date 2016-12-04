@@ -25,7 +25,8 @@ def probability(word):
     try:
         return float(word_frequency[word]) / total_words
     except KeyError:
-        return 1.0 / total_words
+        # Smoothing factor
+        return 0.1 / total_words
 
 
 def correction(word):
@@ -142,6 +143,6 @@ if __name__ == '__main__':
 
     with open(sys.argv[2], 'w') as write_file:
         str_text = strip_non_ascii(open(sys.argv[1]).read())
-        # replace_punctuation = string.maketrans(string.punctuation, ' '*len(string.punctuation))
-        # str_text = str_text.translate(replace_punctuation).lower()
+        replace_punctuation = string.maketrans(string.punctuation, ' '*len(string.punctuation))
+        str_text = str_text.translate(replace_punctuation).lower()
         write_file.write(auto_correct(str_text))
