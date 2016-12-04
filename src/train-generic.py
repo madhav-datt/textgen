@@ -101,7 +101,7 @@ model.add(Dense(y.shape[1], activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
 #model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.05, momentum=0.0, decay=0.0, nesterov=False))
 # define the checkpoint
-filepath="weights/' + wfile + '-{epoch:02d}.hdf5"
+filepath="weights/" + wfile + "-{epoch:02d}.hdf5"
 #filepath="weights/multilayer-weights.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
 callbacks_list = [checkpoint]
