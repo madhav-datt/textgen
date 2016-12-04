@@ -66,17 +66,42 @@ def get_information_value(words):
 
 def evaluate_nlg(evaluation_file, reference_file='training/1.txt', N=5, beta=0):
     """
-
-    :param evaluation_file:
-    :param reference_file:
-    :param N:
-    :param beta:
-    :return:
+    Compute evaluation score based of NIST evaluation metrics for machine translation
+    Brevity factor = e^{beta * log ^ 2(min(1, L_sys / L_ref)}
+    N-gram score = sum (n = 1 to N) {sum (all n-grams [w_1 .. w_n]) Info([w_1 .. w_n]] / sum (all n-grams [w_1 .. w_n])}
+    Score = N-gram score * brevity factor
+    :param evaluation_file: Text for evaluation
+    :param reference_file: File with human generated reference text
+    :param N: Maximum n-gram size, by default 5
+    :param beta: Brevity penalty factor, by default 0
+    :return: Evaluated score for file
     """
     global reference_data
+    score = 0
 
     with io.open(evaluation_file, 'r', encoding='utf-8') as evaluation:
-        evaluation_data = pre_process(evaluation.read())
+        evaluation_data = pre_process(evaluation.read()).split()
 
     with io.open(reference_file, 'r', encoding='utf-8') as reference:
         reference_data = pre_process(reference.read())
+
+    # Brevity penalty factor calculation
+    eval_data_len = len(evaluation_data)
+    word_ratio = float(eval_data_len / len(reference_data.split()))
+    brevity_penalty = np.exp(beta * np.log(min(1, word_ratio)) ** 2)
+
+    for n in xrange(1, N):
+        ngrams = set()
+        total_info = 0
+        for i in xrange(eval_data_len - n):
+            words = tuple(evaluation_data[i: i + n])
+            if words in ngrams:
+                continue
+
+            ngrams.add(words)
+            total_info += get_information_value(words)
+
+        score += float(total_info / len(ngrams))
+
+    score *= brevity_penalty
+    return score
