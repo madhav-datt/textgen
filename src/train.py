@@ -9,7 +9,7 @@ from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 # load ascii text and covert to lowercase
-filename = "training/11.txt"
+filename = "training/4-mod.txt"
 raw_text = open(filename).read()
 raw_text = raw_text.lower()
 # create mapping of unique chars to integers
@@ -39,24 +39,17 @@ X = X / float(n_vocab)
 y = np_utils.to_categorical(dataY)
 # define the LSTM model
 model = Sequential()
-<<<<<<< HEAD
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
 model.add(Dropout(0.2))
 model.add(LSTM(256))
 model.add(Dropout(0.2))
-=======
-model.add(LSTM(64, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
-model.add(Dropout(0))
-model.add(LSTM(64))
-model.add(Dropout(0))
->>>>>>> refs/remotes/origin/master
 model.add(Dense(y.shape[1], activation='softmax'))
-#model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.5, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
-model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.05, momentum=0.0, decay=0.0, nesterov=False))
+model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
+#model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.05, momentum=0.0, decay=0.0, nesterov=False))
 # define the checkpoint
-filepath="weights-improvement-{epoch:02d}-{loss:.4f}-bigger.hdf5"
+filepath="weights/weights-sherlock-multilayer-{epoch:02d}.hdf5"
 #filepath="weights/multilayer-weights.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
 callbacks_list = [checkpoint]
 # fit the model
-model.fit(X, y, nb_epoch=100, batch_size=64, callbacks=callbacks_list)
+model.fit(X, y, nb_epoch=1000, batch_size=64, callbacks=callbacks_list)
