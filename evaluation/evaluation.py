@@ -88,6 +88,11 @@ def evaluate_nlg(evaluation_file, reference_file='training/1.txt', N=5, beta=0):
         reference_data = reference.read().encode('ascii', errors='ignore')
         reference_data = pre_process(reference_data)
 
+    n = 1000
+    reference_data = [reference_data[i:i + n].split() for i in range(0, len(reference_data), n)]
+
+    return sentence_bleu(reference_data, evaluation_data)
+
     # Brevity penalty factor calculation
     eval_data_len = len(evaluation_data)
     word_ratio = float(eval_data_len) / len(reference_data.split())
@@ -111,4 +116,9 @@ def evaluate_nlg(evaluation_file, reference_file='training/1.txt', N=5, beta=0):
 
 
 if __name__ == '__main__':
-    print evaluate_nlg('training/4-short.txt')
+    from bleu import *
+    # train_score = evaluate_nlg(evaluation_file='result.txt', reference_file='training/4-mod.txt')
+    # test_score = evaluate_nlg(reference_file='result.txt', evaluation_file='training/1.txt')
+    test_score = evaluate_nlg(evaluation_file='result.txt', reference_file='training/4-mod.txt')
+    # print "Against training set: ", train_score
+    print "Against test set: ", test_score
