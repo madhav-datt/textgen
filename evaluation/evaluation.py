@@ -24,6 +24,17 @@ info_value = {}
 reference_data = None
 
 
+def strip_non_ascii(utf_str):
+    """
+    Convert utf-8 strings to ASCII codec
+    :param utf_str: utf-8 string
+    :return: string without non ASCII characters
+    """
+
+    stripped = (c for c in utf_str if 0 < ord(c) < 127)
+    return ''.join(stripped).encode(encoding='ascii', errors='ignore')
+
+
 def pre_process(str_text):
     """
     Perform all pre-processing steps on input string
@@ -38,7 +49,7 @@ def pre_process(str_text):
     # replace_punctuation = string.maketrans(string.punctuation, ' '*len(string.punctuation))
     # str_text = str_text.translate(replace_punctuation)
 
-    str_text = str_text.lower().replace('\n', ' ').replace('\r', ' ')
+    str_text = strip_non_ascii(str_text).lower().replace('\n', ' ').replace('\r', ' ')
     return ' '.join(str_text.split())
 
 
@@ -71,7 +82,7 @@ def get_information_value(words):
     return info_count
 
 
-def modified_bleu(references, hypothesis, weights=(0.25, 0.25, 0.25, 0.25)):
+def modified_bleu(references, hypothesis, weights=(0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25), pivot=4):
     """
     Calculate a single corpus-level BLEU score (aka. system-level BLEU) for all
     the hypotheses and their respective references.
@@ -82,8 +93,12 @@ def modified_bleu(references, hypothesis, weights=(0.25, 0.25, 0.25, 0.25)):
     :param references: a corpus of lists of reference sentences, w.r.t. hypotheses
     :param hypothesis: a single hypothesis sentence split list for evaluation
     :param weights: weighting scheme (n values, 4 by default) corresponding to 1-grams to n-grams
+    :param pivot:
     :return: modified BLEU score value, accounting for over-fitting
     """
+
+    # Check if pivot value is a valid index to break the weights array
+    # assert len(weights) > pivot
 
     # Counter instance for numerators (Number of n-gram matches vs n-gram n value as key)
     numerators = Counter()
@@ -109,7 +124,19 @@ def modified_bleu(references, hypothesis, weights=(0.25, 0.25, 0.25, 0.25)):
     # Do not perform smoothing as per typical BLEU functions, values remain in the form of fractions.Fraction
     s = (weight * math.log(precision) for i, (weight, precision) in enumerate(zip(weights, precision_values))
          if precision.numerator != 0)
-    return math.exp(math.fsum(s))
+
+    # Extract list of values from generator s
+    weighted_precision = list(s)
+
+    overfitting_penalty = math.exp(math.fsum(weighted_precision[pivot:]))
+    if len(weighted_precision) <= pivot:
+        overfitting_penalty = 0
+
+    # print weighted_precision, math.exp(math.fsum(weighted_precision))
+    # print math.exp(math.fsum(weighted_precision[:pivot]))
+    # print math.exp(math.fsum(weighted_precision[pivot:]))
+    # print math.exp(math.fsum(weighted_precision[:pivot])) - math.exp(math.fsum(weighted_precision[pivot:]))
+    return math.exp(math.fsum(weighted_precision[:pivot])), overfitting_penalty
 
 
 def modified_precision(references, hypothesis, n):
