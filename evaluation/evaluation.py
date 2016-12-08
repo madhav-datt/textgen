@@ -82,23 +82,20 @@ def get_information_value(words):
     return info_count
 
 
-def modified_bleu(references, hypothesis, weights=(0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25), pivot=4):
+def modified_bleu(references, hypothesis, weights=tuple([0.25] * 8), pivot=4):
     """
-    Calculate a single corpus-level BLEU score (aka. system-level BLEU) for all
-    the hypotheses and their respective references.
-    Instead of averaging the sentence level BLEU scores (i.e. marco-average
-    precision), the original BLEU metric (Papineni et al. 2002) accounts for
-    the micro-average precision (i.e. summing the numerators and denominators
-    for each hypothesis-reference(s) pairs before the division).
-    :param references: a corpus of lists of reference sentences, w.r.t. hypotheses
-    :param hypothesis: a single hypothesis sentence split list for evaluation
-    :param weights: weighting scheme (n values, 4 by default) corresponding to 1-grams to n-grams
-    :param pivot:
+    Calculate single modified version of the system BLEU score (aka. system-level BLEU)
+    The original BLEU metric (Papineni et al. 2002) accounts for micro-average precision
+    :param references: lists of reference split list sentences (human produced texts, training text for system)
+    :param hypothesis: hypothesis sentence (system generated text) split list for evaluation
+    :param weights: weighting scheme (n values, 8 by default) corresponding to 1-grams to n-grams
+    :param pivot: index to break weights values around for quality and overfitting metrics
     :return: modified BLEU score value, accounting for over-fitting
+    :return: over-fitting penalty value
     """
 
-    # Check if pivot value is a valid index to break the weights array
-    # assert len(weights) > pivot
+    # Check if pivot value is a valid index to break the weights array around
+    assert len(weights) > pivot
 
     # Counter instance for numerators (Number of n-gram matches vs n-gram n value as key)
     numerators = Counter()
@@ -128,14 +125,12 @@ def modified_bleu(references, hypothesis, weights=(0.25, 0.25, 0.25, 0.25, 0.25,
     # Extract list of values from generator s
     weighted_precision = list(s)
 
+    # Over-fitting measured by considering modified BLEU score values of weights and precision values after pivot
+    # Presence of significantly higher order n-gram matches, against training set imply over-fitting
     overfitting_penalty = math.exp(math.fsum(weighted_precision[pivot:]))
     if len(weighted_precision) <= pivot:
         overfitting_penalty = 0
 
-    # print weighted_precision, math.exp(math.fsum(weighted_precision))
-    # print math.exp(math.fsum(weighted_precision[:pivot]))
-    # print math.exp(math.fsum(weighted_precision[pivot:]))
-    # print math.exp(math.fsum(weighted_precision[:pivot])) - math.exp(math.fsum(weighted_precision[pivot:]))
     return math.exp(math.fsum(weighted_precision[:pivot])), overfitting_penalty
 
 
@@ -166,17 +161,12 @@ def modified_precision(references, hypothesis, n):
     return Fraction(numerator, denominator)
 
 
-def evaluate_nlg(evaluation_file, reference_file='training/1.txt', N=5, beta=0):
+def evaluate_nlg(evaluation_file, reference_file='training/1.txt'):
     """
-    Compute evaluation score based of NIST evaluation metrics for machine translation
-    Brevity factor = e^{beta * log ^ 2(min(1, L_sys / L_ref)}
-    N-gram score = sum (n = 1 to N) {sum (all n-grams [w_1 .. w_n]) Info([w_1 .. w_n]] / sum (all n-grams [w_1 .. w_n])}
-    Score = N-gram score * brevity factor
+    Compute evaluation score based of BLEU evaluation metrics for machine translation
     :param evaluation_file: Text for evaluation
     :param reference_file: File with human generated reference text
-    :param N: Maximum n-gram size, by default 5
-    :param beta: Brevity penalty factor, by default 0
-    :return: Evaluated score for file
+    :return: Evaluated score for file (Text Quality metric, Over-fitting metric)
     """
 
     global reference_data
@@ -204,5 +194,5 @@ def evaluate_nlg(evaluation_file, reference_file='training/1.txt', N=5, beta=0):
 
 
 if __name__ == '__main__':
-    modified_bleu_score = evaluate_nlg(evaluation_file='result.txt', reference_file='training/4-mod.txt')
-    print "Against test set: ", modified_bleu_score
+    modified_bleu_scores = evaluate_nlg(evaluation_file='result.txt', reference_file='training/4-mod.txt')
+    print "Against test set (Text Quality metric, Over-fitting metric): ", modified_bleu_scores
