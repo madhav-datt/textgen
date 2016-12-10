@@ -10,7 +10,7 @@ from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 # load ascii text and covert to lowercase
-filename = "training/wonderland.txt"
+filename = "training/4-mod.txt"
 raw_text = open(filename).read()
 raw_text = raw_text.lower()
 # create mapping of unique chars to integers, and a reverse mapping
@@ -41,15 +41,19 @@ X = X / float(n_vocab)
 y = np_utils.to_categorical(dataY)
 # define the LSTM model
 model = Sequential()
-model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
-model.add(Dropout(0.0))
+model.add(LSTM(512, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
+model.add(Dropout(0.2))
+#model.add(LSTM(256, return_sequences=True))
+#model.add(Dropout(0.2))
+#model.add(LSTM(128, return_sequences=True))
+#model.add(Dropout(0.2))
 model.add(LSTM(256))
-model.add(Dropout(0.0))
+model.add(Dropout(0.2))
 model.add(Dense(y.shape[1], activation='softmax'))
 # load the network weights
 #filename = "weights/weights-improvement-most-recent.hdf5"
 #filename = "weights/multilayer-weights.hdf5"
-filename = "weights-improvement-wonderland-multilayer-03-2.0989-bigger.hdf5"
+filename = "weights/sherlock-4-2l-512n-1000e-128bs-02do-507.hdf5"
 model.load_weights(filename)
 model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
 #model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.05, momentum=0.0, decay=0.0, nesterov=False))
@@ -59,7 +63,7 @@ pattern = dataX[start]
 print "Seed:"
 print "\"", ''.join([int_to_char[value] for value in pattern]), "\""
 # generate characters
-for i in range(10000):
+for i in range(1000):
     x = numpy.reshape(pattern, (1, len(pattern), 1))
     x = x / float(n_vocab)
     prediction = model.predict(x, verbose=0)

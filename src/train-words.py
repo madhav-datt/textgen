@@ -17,11 +17,10 @@ wfile = ''
 epochs = 20
 batchsize = 64
 dropout = 0.2
-slide = 100
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv,"t:w:l:n:e:b:d:s:")
+        opts, args = getopt.getopt(argv,"t:w:l:n:e:b:d:")
     except getopt.GetoptError:
         print "error"
         sys.exit(2)
@@ -48,9 +47,6 @@ def main(argv):
         elif opt in ("-d"):
             global dropout
             dropout = float(arg)
-        elif opt in ("-s"):
-            global dropout
-            slide = int(arg)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
@@ -63,20 +59,21 @@ filename = "training/" + text + ".txt"
 raw_text = open(filename).read()
 raw_text = raw_text.lower()
 # create mapping of unique chars to integers
-chars = sorted(list(set(raw_text)))
+word_split = raw_text.split()
+chars = sorted(list(set(raw_text.split())))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 # summarize the loaded data
-n_chars = len(raw_text)
+n_chars = len(raw_text.split())
 n_vocab = len(chars)
 print "Total Characters: ", n_chars
 print "Total Vocab: ", n_vocab
 # prepare the dataset of input to output pairs encoded as integers
-seq_length = slide
+seq_length = 3
 dataX = []
 dataY = []
 for i in range(0, n_chars - seq_length, 1):
-    seq_in = raw_text[i:i + seq_length]
-    seq_out = raw_text[i + seq_length]
+    seq_in = raw_text.split()[i:i + seq_length]
+    seq_out = raw_text.split()[i + seq_length]
     dataX.append([char_to_int[char] for char in seq_in])
     dataY.append(char_to_int[seq_out])
 n_patterns = len(dataX)
@@ -105,7 +102,7 @@ model.add(Dense(y.shape[1], activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0))
 #model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.05, momentum=0.0, decay=0.0, nesterov=False))
 # define the checkpoint
-filepath="weights2/" + wfile + "-{epoch:02d}.hdf5"
+filepath="weights/" + wfile + "-{epoch:02d}.hdf5"
 #filepath="weights/multilayer-weights.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
 callbacks_list = [checkpoint]

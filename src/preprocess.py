@@ -23,12 +23,13 @@ def pre_process(str_text):
     return ' '.join(str_text.split())
 
 raw_training_path = 'training/'
-raw_train_data = [f for f in listdir(raw_training_path) if isfile(join(f, raw_training_path))]
-
+raw_train_data = [f for f in listdir(raw_training_path) if isfile(join(raw_training_path, f))]
+raw_train_data.remove(".DS_Store")
 output = 'train.txt'
 
 with io.open(output, 'w', encoding='utf-8') as output_file:
     for raw_file in raw_train_data:
-        with io.open(join(raw_file, raw_training_path), 'r', encoding='utf-8') as input_file:
+        with io.open(join(raw_training_path, raw_file), 'r', encoding='utf-8') as input_file:
             # Pre-process each input file and write to output file
+            print input_file
             output_file.write(pre_process(input_file.read()))

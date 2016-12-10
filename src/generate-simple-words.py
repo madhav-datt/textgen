@@ -13,22 +13,22 @@ from keras.utils import np_utils
 filename = "training/4-mod.txt"
 raw_text = open(filename).read()
 raw_text = raw_text.lower()
-# create mapping of unique chars to integers, and a reverse mapping
-chars = sorted(list(set(raw_text)))
-char_to_int = dict((c, i) for i, c in enumerate(chars))
+# create mapping of unique chars to integers
+chars = sorted(list(set(raw_text.split())))
 int_to_char = dict((i, c) for i, c in enumerate(chars))
+char_to_int = dict((c, i) for i, c in enumerate(chars))
 # summarize the loaded data
-n_chars = len(raw_text)
+n_chars = len(raw_text.split())
 n_vocab = len(chars)
 print "Total Characters: ", n_chars
 print "Total Vocab: ", n_vocab
 # prepare the dataset of input to output pairs encoded as integers
-seq_length = 100
+seq_length = 25
 dataX = []
 dataY = []
 for i in range(0, n_chars - seq_length, 1):
-    seq_in = raw_text[i:i + seq_length]
-    seq_out = raw_text[i + seq_length]
+    seq_in = raw_text.split()[i:i + seq_length]
+    seq_out = raw_text.split()[i + seq_length]
     dataX.append([char_to_int[char] for char in seq_in])
     dataY.append(char_to_int[seq_out])
 n_patterns = len(dataX)
@@ -42,12 +42,12 @@ y = np_utils.to_categorical(dataY)
 # define the LSTM model
 model = Sequential()
 # LSTM(# nodes)
-model.add(LSTM(1024, input_shape=(X.shape[1], X.shape[2])))
+model.add(LSTM(512, input_shape=(X.shape[1], X.shape[2])))
 # Dropout rate
 model.add(Dropout(0.2))
 model.add(Dense(y.shape[1], activation='softmax'))
 # load the network weights
-filename = "sherlock-4-1l-1024n-1000e-256-02do-638.hdf5"
+filename = "word-test-512-20.hdf5"
 model.load_weights(filename)
 
 # copy this over from train-simple
@@ -61,7 +61,7 @@ print "Seed:"
 print "\"", ''.join([int_to_char[value] for value in pattern]), "\""
 # generate characters
 # generate however many characters
-for i in range(1000):
+for i in range(200):
     x = numpy.reshape(pattern, (1, len(pattern), 1))
     x = x / float(n_vocab)
     prediction = model.predict(x, verbose=0)
@@ -69,6 +69,7 @@ for i in range(1000):
     result = int_to_char[index]
     seq_in = [int_to_char[value] for value in pattern]
     sys.stdout.write(result)
+    sys.stdout.write(" ")
     pattern.append(index)
     pattern = pattern[1:len(pattern)]
 print "\nDone."
