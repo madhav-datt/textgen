@@ -1,4 +1,4 @@
-
+import numpy
 import random
 
 def process_text(filename):
@@ -21,37 +21,37 @@ def transition(raw_text, n):
             table[substring] = 1
 
 
-    print table
+    #print table
     return table
 
+def generate(table, n_out, n, cti, itc):
+    
+    #word = random.choice(table.keys())
+    #output_text = word
+    #print word
+    seed = "to sherlock holmes she is always the woman."
+    output_text = seed[:n]
+    current = seed[1:n]
+    #current = word[1:]
+    print output_text
 
-def generate(table, n_out, n):
-    word = random.choice(table.keys())
-    output_text = word
-    print word
-    current = word[1:]
-
-
-    # could change this to choose randomly from all characters
-    letter = 't'
-    max_count = 0.1
     char = 0
 
     while char < n_out:
-
+        prob_array = [1] * len(cti)
         # Iterate through each key in dictionary
         for key in table.keys():
             if current == key[:n-1]:
-                # print "yes"
-                # Keep track of most probable next character
-                if table[key] > max_count:
-                    max_count = table[key]
-                    letter = key[-1]
+                prob_array[cti[key[-1]]] += 10000*table[key]
+        #print current
 
+        prob_array = normalize(prob_array)
+        letter = itc[numpy.random.choice(len(cti), p=prob_array)]
+        
         output_text += letter
         current = current[1:] + letter
-        letter = 't'
-        max_count = 0.1
+        #letter = 't'
+        #max_count = 0.1
         char += 1
 
     print char
@@ -59,9 +59,18 @@ def generate(table, n_out, n):
 
     return
 
+def normalize(array):
+    theSum = 1.0*sum(array)
+    for i in range(len(array)):
+        array[i] /= theSum
+    return array
+text = process_text("training/4-mod.txt")
 
-t_prob = transition(process_text("training/4-mod.txt"), 2)
-generate(t_prob,1000, 2)
+chars = sorted(list(set(text)))
+char_to_int = dict((c, i) for i, c in enumerate(chars))
+int_to_char = dict((i, c) for i, c in enumerate(chars))
+t_prob = transition(text, 3)
+generate(t_prob,1000, 3, char_to_int, int_to_char)
 
 
 
