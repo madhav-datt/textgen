@@ -69,7 +69,7 @@ chars = sorted(list(set(text)))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 int_to_char = dict((i, c) for i, c in enumerate(chars))
 
-smooth = 100000
+smooth = 10000
 num_chars = 1000
 n = 5
 t_prob = transition(text, n)
