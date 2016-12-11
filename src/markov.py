@@ -24,7 +24,7 @@ def transition(raw_text, n):
     #print table
     return table
 
-def generate(table, n_out, n, cti, itc):
+def generate(table, n_out, n, cti, itc, smooth):
     
     #word = random.choice(table.keys())
     #output_text = word
@@ -42,7 +42,7 @@ def generate(table, n_out, n, cti, itc):
         # Iterate through each key in dictionary
         for key in table.keys():
             if current == key[:n-1]:
-                prob_array[cti[key[-1]]] += 10000*table[key]
+                prob_array[cti[key[-1]]] += smooth*table[key]
         #print current
 
         prob_array = normalize(prob_array)
@@ -65,12 +65,15 @@ def normalize(array):
         array[i] /= theSum
     return array
 text = process_text("training/4-mod.txt")
-
 chars = sorted(list(set(text)))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 int_to_char = dict((i, c) for i, c in enumerate(chars))
-t_prob = transition(text, 3)
-generate(t_prob,1000, 3, char_to_int, int_to_char)
+
+smooth = 100000
+num_chars = 1000
+n = 5
+t_prob = transition(text, n)
+generate(t_prob, num_chars, n, char_to_int, int_to_char, smooth)
 
 
 
