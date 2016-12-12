@@ -32,24 +32,26 @@ def generate(table, n_out, n, cti, itc, smooth):
     
     # Fixed seed for now
     seed = "to sherlock holmes she is always the woman."
-    output_text = seed[:n]
+    output_text = seed
     # The current n-1 characters we want the next character for
-    current = seed[1:n]
+    current = output_text[len(seed) - (n-1):]
+    print(n, len(current))
 
     char = 0
 
     while char < n_out:
         # Smoothing initializes the count of each possible 
-        # next character to 1
-        prob_array = [1] * len(cti)
+        # next character to the value inputted for smooth
+
+        prob_array = [smooth] * len(cti)
         # Iterate through each key (n-gram) in dictionary
         for key in table.keys():
             # If we find an n-gram key whose first n-1 characters 
-            # are the same as current, add smooth * the count
+            # are the same as current, add smooth + the count
             # of that n-gram in the text to the probability
             # array for the last character in that n-gram
             if current == key[:n-1]:
-                prob_array[cti[key[-1]]] += smooth*table[key]
+                prob_array[cti[key[-1]]] += table[key]
 
         # Normalize the probability array; then choose the next
         # character from the probability distribution
@@ -82,13 +84,13 @@ chars = sorted(list(set(text)))
 char_to_int = dict((c, i) for i, c in enumerate(chars))
 int_to_char = dict((i, c) for i, c in enumerate(chars))
 
-# Smoothing counts each seen character as [smooth] characters; initial count is 
-# 1 for every possible next character. 
-smooth = 1000
+# Smoothing: initial count is
+# k for every possible next character.
+smooth = .0001
 # Number of characters to generate
 num_chars = 1000
 # Generate the n+1st character from n
-n = 3
+n = 14
 t_prob = transition(text, n+1)
 generate(t_prob, num_chars, n+1, char_to_int, int_to_char, smooth)
 

@@ -194,5 +194,5 @@ def evaluate_nlg(evaluation_file, reference_file='training/1.txt'):
 
 
 if __name__ == '__main__':
-    modified_bleu_scores = evaluate_nlg(evaluation_file='result.txt', reference_file='training/4-mod.txt')
+    modified_bleu_scores = evaluate_nlg(evaluation_file='../textgen-2/markov_out/markov_15-0.0001.txt', reference_file='../training/4-mod.txt')
     print "Against test set (Text Quality metric, Over-fitting metric): ", modified_bleu_scores
