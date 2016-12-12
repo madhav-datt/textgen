@@ -1,6 +1,36 @@
 #
-# explain parameters
+# Train a LSTM-RNN to generate text in a certain style. Uses the Keras library with Theano backend; 
+# code adapted from example at: http://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
+# Keras documentation here: https://keras.io/
 #
+# Takes command line arguments:
+# 
+# -t textfile
+# training/[textfile].txt is the training corpus; mandatory argument
+#
+# -w weightfile
+# weights/[weightfile]-[epochnumber].hdf5 will be the generated weight file for eopch epochnumber; mandatory argument
+#
+# -l layers
+# The number of hidden layers in the LSTM-RNN
+#
+# -n nodenums
+# If 1 layers, nodenums is the number of nodes in that layer
+# If >1 layers, nodenums is the number of nodes in each layer, separated by '.', for example 512.256 for 2 layers with 512/256 nodes
+#
+# -e epochs
+# Max number of epochs to run for
+#
+# -b batchsize
+# How often to train the network/adjust weights/propagate errors: every batchsize samples the network trains
+#
+# -d dropout
+# Drops a fraction dropout of the input units to 0 while training, avoiding overfitting
+#
+# -s slide
+# Size of the sliding window of text used to predict the next character; number of nodes in the input layer
+#   
+# All parameters but -t and -w have default values set.
 # 
 
 import numpy
@@ -17,7 +47,7 @@ import sys, getopt
 
 text = ''
 layers = 1
-nodes = [512]
+nodes = "512"
 wfile = ''
 epochs = 1000
 batchsize = 64
@@ -80,8 +110,6 @@ char_to_int = dict((c, i) for i, c in enumerate(chars))
 # summarize the loaded data
 n_chars = len(raw_text)
 n_vocab = len(chars)
-print "Total Characters: ", n_chars
-print "Total Vocab: ", n_vocab
 # prepare the dataset of input to output pairs encoded as integers
 seq_length = slide
 dataX = []
@@ -92,7 +120,6 @@ for i in range(0, n_chars - seq_length, 1):
     dataX.append([char_to_int[char] for char in seq_in])
     dataY.append(char_to_int[seq_out])
 n_patterns = len(dataX)
-print "Total Patterns: ", n_patterns
 # reshape X to be [samples, time steps, features]
 X = numpy.reshape(dataX, (n_patterns, seq_length, 1))
 # normalize
@@ -102,11 +129,12 @@ y = np_utils.to_categorical(dataY)
 # define the LSTM model
 model = Sequential()
 
-# add just the one layer 
 if int(layers) == 1:
+    # Just the one layer
     model.add(LSTM(int(nodes[0]), input_shape=(X.shape[1], X.shape[2])))
     model.add(Dropout(dropout))
 else:
+    # Multiple layers, each with the number of nodes specified
     model.add(LSTM(int(nodes[0]), input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
     model.add(Dropout(dropout))
     for i in range(layers-2):

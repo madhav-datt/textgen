@@ -1,7 +1,38 @@
+#
+# Generates text in a certain style given a weight file. Uses the Keras library with Theano backend;
+# code adapted from example at http://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
+# Keras documentation here: https://keras.io/
+#
+# Takes command line arguments:
 # 
-# Explain parameters
+# -t textfile
+# training/[textfile].txt is the training corpus; mandatory argument
 #
+# -w weightfile
+# weights/[weightfile]-[epochnumber].hdf5 will be the generated weight file for eopch epochnumber; mandatory argument
 #
+# -o outputfile
+# output/[outputfile].txt is the file the generated text is saved to
+#
+# -l layers
+# The number of hidden layers in the LSTM-RNN
+#
+# -n nodenums
+# If 1 layers, nodenums is the number of nodes in that layer
+# If >1 layers, nodenums is the number of nodes in each layer, separated by '.', for example 512.256 for 2 layers with 512/256 nodes
+#
+# -d dropout
+# Drops a fraction dropout of the input units to 0 while training, avoiding overfitting
+#
+# -s slide
+# Size of the sliding window of text used to predict the next character; number of nodes in the input layer
+#
+# -c numchars
+# Generates numchars characters of text from the model
+#   
+# All parameters but -t and -w have default values set.
+# 
+
 
 import sys
 import numpy
@@ -82,8 +113,6 @@ int_to_char = dict((i, c) for i, c in enumerate(chars))
 # summarize the loaded data
 n_chars = len(raw_text)
 n_vocab = len(chars)
-print "Total Characters: ", n_chars
-print "Total Vocab: ", n_vocab
 # prepare the dataset of input to output pairs encoded as integers
 seq_length = slide
 dataX = []
@@ -94,7 +123,6 @@ for i in range(0, n_chars - seq_length, 1):
     dataX.append([char_to_int[char] for char in seq_in])
     dataY.append(char_to_int[seq_out])
 n_patterns = len(dataX)
-print "Total Patterns: ", n_patterns
 # reshape X to be [samples, time steps, features]
 X = numpy.reshape(dataX, (n_patterns, seq_length, 1))
 # normalize
@@ -129,7 +157,8 @@ pattern = []
 for i in range(len(seed)):
     pattern = pattern + [char_to_int[seed[i]]]
 
-with open("output/" + output, 'w') as output_file:
+# Generate numchars characters and write to the output file
+with open("output/" + output + '.txt', 'w') as output_file:
     for i in range(numchars):
         x = numpy.reshape(pattern, (1, len(pattern), 1))
         x = x / float(n_vocab)

@@ -1,6 +1,8 @@
 #
 # Generator functions for various matplotlib plots
 #
+# See __main__ for usage explanation
+#
 
 import matplotlib.pyplot as plt
 

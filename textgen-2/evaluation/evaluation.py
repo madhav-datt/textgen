@@ -9,6 +9,8 @@
 # Strong correlation with human expert evaluation for natural language generation (NLG) shown by
 # Belz, A. and Reiter, E., 2006, April. Comparing Automatic and Human Evaluation of NLG Systems. In EACL.
 #
+# See '__main__' for usage explanation
+#
 
 import io
 import numpy as np
@@ -194,8 +196,6 @@ def evaluate_nlg(evaluation_file, reference_file='training/1.txt'):
 
 
 if __name__ == '__main__':
-    modified_bleu_scores = evaluate_nlg(evaluation_file='markov1.txt', reference_file='training/4-mod.txt')
-    print modified_bleu_scores
     # Below is an example to evaluate the basefile 'sherlock-4-1l-512n' and the epochs listed. 
     #
     # Modify basefile and epochs accordingly to evaluate text generated for a particular LSTM-RNN configuration
@@ -206,8 +206,8 @@ if __name__ == '__main__':
     #
     # The example is from a configuration with 1 layer and 512 nodes. Epochs were hand-selected (they are
     # not nice numbers because weights are only saved when an epoch has improved on the loss function).
-    #basefile = 'sherlock-4-1l-512n'
-    #epochs = ['10', '25', '50', '100', '153', '203', '251', '304', '356', '406', '458', '503', '551', '602', '653', '704', '755', '800', '870', '905', '950', '991']
+    basefile = 'sherlock-4-1l-512n'
+    epochs = ['10', '25', '50', '100', '153', '203', '251', '304', '356', '406', '458', '503', '551', '602', '653', '704', '755', '800', '870', '905', '950', '991']
     
     quality = []
     overfit = []
