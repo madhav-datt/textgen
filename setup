@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+#
+# Before executing, run from top level directory:
+#   chmod +x setup
+#
+# Environment setup script for execution
+# Assuming some flavor of anaconda/conda is pre-installed on the system
+# (https://docs.continuum.io/anaconda/install)
+# After installation, run as follows:
+# (sudo access might be required - careful)
+#   ./setup
+#
+
+# Preferred over pip install for consistency and package management
+# Alternative: pip install -r requirements.txt
+conda env create -f environment.yml
+source activate p2
+
+# Downloads all nltk corpora and libraries
+# This step will take some time
+python - <<-EOF
+    import nltk
+    nltk.download('all')
+EOF
