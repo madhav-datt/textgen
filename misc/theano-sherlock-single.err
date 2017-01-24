@@ -1,4 +1,0 @@
-discarding /n/home13/azhou/.conda/envs/mypython/bin from PATH
-prepending /n/home13/azhou/.conda/envs/mypython/bin to PATH
-Using Theano backend.
-Using gpu device 0: Tesla K80 (CNMeM is enabled with initial size: 95.0% of memory, cuDNN 4007)

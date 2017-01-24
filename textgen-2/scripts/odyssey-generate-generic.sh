@@ -34,7 +34,7 @@ numchars="1000"
 source activate mypython
 
 # The list of epoch numbers for weightfiles to generate results for
-for num in 10 25 50 100 153 203 251 304 356 406 458 503 551 602 653 704 755 800 870 905 950 991
+for num in 10 # 25 50 100 153 203 251 304 356 406 458 503 551 602 653 704 755 800 870 905 950 991
 do
   thefile="$weightfile$num"
   output="output-$thefile"
