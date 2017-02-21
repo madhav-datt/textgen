@@ -27,3 +27,6 @@ and evaluate results using a modification to the BLEU metric.
 
 ## Find out more
 You can read more about our system in this [paper](https://github.com/madhav-datt/textgen/blob/master/Style-imitative%20Text%20Generation.pdf). This [poster](https://github.com/madhav-datt/textgen/blob/master/Poster.pdf) gives a great (and extremely short) overview of our system.
+
+![Research Poster](https://github.com/madhav-datt/textgen/blob/master/poster-img.jpg)
+
